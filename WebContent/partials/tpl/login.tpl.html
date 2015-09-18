@@ -1,0 +1,12 @@
+<div>
+<form name="form1" role="form">
+   <p>BIENVENIDO {{username}}</p>
+  <label for="txtUsuario" >Usuario : </label>
+  <input id="txtUsuario"  type='text' placeholder="ingrese usuario" required ng-model="user.name"  />
+  <BR /><BR />
+  <label for="txtUsuario">Clave : </label>
+  <input id="txtClave" type='text' placeholder='ingrese contraseña' required ng-model="user.clave"/>
+  <br /><br />
+  <button type="submit" value="INGRESAR"  ng-disabled="form1.$invalid" ng-click="login(user)"/>INGRESAR</button>
+</form>
+</div>
