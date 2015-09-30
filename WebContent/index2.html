@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="hotelApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Hostal Republica</title>
+  <script src="lib/angular.js"></script>
+  <script src="lib/angular-route.js" ></script>
+  <script src="lib/angular-resource.js" ></script>
+  <script src="lib/jquery-1.11.3.min.js"></script>
+  <script src="lib/bootstrap.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="js/app.js" ></script>
+  <script src="js/directives/loginDirective.js" ></script>
+  <script src="js/directives/reservaDirective.js" ></script>
+  <script src="js/directives/estadiaDirective.js" ></script>
+  <script src="js/directives/gestionEstadiaDirective.js" ></script>
+  <script src="js/controllers/loginController.js" ></script>
+  <script src="js/controllers/reservaController.js" ></script>
+  <script src="js/controllers/estadiaController.js" ></script>
+  <script src="js/services/loginService.js" ></script>
+  <script src="js/services/reservaService.js" ></script>
+  <script src="js/services/estadiaService.js" ></script>
+</head>
+  <body >
+    <div class="container">
+    <div ng-view></div>
+    </div>
+  </body>
+</html>

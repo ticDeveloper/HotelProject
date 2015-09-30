@@ -1,12 +1,17 @@
-<div>
-<form name="form1" role="form">
-   <p>BIENVENIDO {{username}}</p>
+<div class="container">
+<form name="form1" role="form" >
+  <fieldset class="booking">
+    <div class="reservation-form">
+  <div class="field">
+    <h5>INGRESO SISTEMA HOTEL {{username}}:</h5>
   <label for="txtUsuario" >Usuario : </label>
-  <input id="txtUsuario"  type='text' placeholder="ingrese usuario" required ng-model="user.name"  />
-  <BR /><BR />
+  <input id="txtUsuario"  type='text' placeholder="ingrese usuario" required ng-model="user.name" />
   <label for="txtUsuario">Clave : </label>
-  <input id="txtClave" type='text' placeholder='ingrese contraseña' required ng-model="user.clave"/>
-  <br /><br />
-  <button type="submit" value="INGRESAR"  ng-disabled="form1.$invalid" ng-click="login(user)"/>INGRESAR</button>
+  <input id="txtClave" type='text' placeholder='ingrese contraseña' required ng-model="user.clave" />
+  <div class="clear"></div>
+  </div>
+  <div class="button" ng-disabled="form1.$invalid" ><a href="" ng-click="login(user)">INGRESAR</a></div>
+</div>
+</fieldset>
 </form>
 </div>

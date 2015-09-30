@@ -1,0 +1,73 @@
+
+<script type="text/ng-template" id="myModalConfirm.html">
+<div class="modal-header">
+    <h3 class="modal-title">Confirmacion de Reserva</h3>
+</div>
+<div class="modal-body">
+
+    <label>Desea confirmar la reserva?</label>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">Confirmar</button>
+    <button class="btn btn-primary" type="button" ng-click="cancel()">Cancelar</button>
+</div>
+</script>
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Detalles de Reserva</h3>
+        </div>
+        <div class="modal-body">
+        <label>Nombre :</label><span>{{cuenta.nombre}}</span> <br />
+        <label>Email :</label><span>{{cuenta.email}}</span><br />
+        <label>Telefono :</label><span>{{cuenta.telefono}}</span><br />
+        <label>Fecha reserva :</label><span>{{cuenta.fecha_reserva}}</span><br />
+        <label>Numero de personas :</label><span>{{cuenta.numero_personas}}</span><br />
+        <label>Fecha llegada :</label><span>{{cuenta.fecha_llegada}}</span><br />
+        <label>Fecha Ingreso :</label><span>{{cuenta.fecha_ingreso}}</span><br />
+        <label>Fecha Salida :</label><span>{{cuenta.fecha_salida}}</span><br />
+        <label>Pago con tarjeta :</label><span>{{cuenta.pago_tarjeta}}</span><br />
+        <label>Numero Tarjeta :</label><span>{{cuenta.numero_tarjeta}}</span><br />
+        <label>Fecha Exp. :</label><span>{{cuenta.exp_date}}</span><br />
+        <label>Nombre tarjeta :</label><span>{{cuenta.firstname_tarjeta}} {{cuenta.lastname_tarjeta}}</span><br />
+        <label>Codigo tarjeta :</label><span>{{cuenta.codigo}}</span><br />
+        <label>Servicio de aeropuerto :</label><span>{{cuenta.servicio_recojo}}</span><br />
+        <label>Aerolinea :</label><span>{{cuenta.aerolinea}}</span><br />
+        <label>Vuelo :</label><span>{{cuenta.vuelo}}</span><br />
+        <label>Hora :</label><span>{{cuenta.hora}}</span><br />
+        <label>Desde :</label><span>{{cuenta.desde}}</span><br />
+        <label>HABITACIONES RESERVADAS</label><br/>
+        <table class="table">
+          <tr>
+          <th>Habitacion</th>
+          <th>Ocupante</th>
+          <th>Doc. Identificacion</th>
+          <th>Clase</th>
+          <th>Tarifa</th>
+          </tr>
+          <tr ng-repeat=" row in habitacionesCuenta">
+            <td>{{row.codigo}}</td>
+            <td>{{row.nombre_ocupante}}</td>
+            <td>{{row.doc_identificacion}}</td>
+            <td>{{row.Clase}}</td>
+            <td>{{row.tarifa}}</td>
+          </tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">Cerrar</button>
+        </div>
+</script>
+<input ng-show="false" id="txtName"  type='textarea' placeholder="your full name" ng-model="selectedCuenta" ng-init="selectedCuenta=0" />
+<div>
+<form name="form1" role="form">
+  <div class="text"><h2>Reservas pendientes de Aprobacion</h2></div>
+  <div ui-grid="gridPendientes" ui-grid-selection class="myGrid"></div>
+  <div class="clear">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+  <div class="button" >
+      <a href="" ng-click="open()" >Ver Detalles</a>
+      <a href="" ng-click="confirm()" >Confirmar Reserva</a>
+  </div>
+</form>
+</div>

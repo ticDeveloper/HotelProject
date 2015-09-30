@@ -1,0 +1,68 @@
+<div class="content-top">
+  <div class="grid">
+      <div class="tariff">
+            <div class="text">
+            <h2>24 hours Reception</h2>
+            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia</p
+            <a href="tariff.html"><p><span class="yellow">Read More</span></p></a>
+          </div>
+      <div class="clear"></div>
+      </div>
+  </div>
+  <div class="grid1">
+        <div class="tariff">
+            <div class="text">
+            <h2>Breakfast</h2>
+            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia</p>
+            <a href="tariff.html"><p><span class="yellow">Read More</span></p></a>
+          </div>
+        <div class="clear"></div>
+        </div>
+  </div>
+  <div class="grid2">
+     <h4>Book a Room</h4>
+        <div class="booking">
+              <form class="reservation-form" role="form">
+              <fieldset>
+                <div class="field">
+                  <h5>Reservation Information:</h5>
+                  <label>Check In</label>
+                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateIn" >
+                </div>
+                <div class="field">
+                  <label>Check Out</label>
+                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateOut" >
+                </div>
+                <div class="field"> Persons :
+                  <input type="text" ng-model="filtro.number" value="1" required>
+                </div>
+                <div class="button"><a href="" ng-click="filtrar(filtro)">Search</a></div>
+              </fieldset>
+          </form>
+          <div class="clear"></div>
+       </div>
+  </div>
+  <div class="clear"></div>
+</div>
+<div class="rooms" ng-show="noRows">
+<table class="table" summary="Sample Table" style="width:100%;">
+  <thead>
+    <tr>
+      <th scope="col">Tipo Habitacion</th>
+      <th scope="col">Clase</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <td colspan=2 >.</th>
+    </tr>
+  </tfoot>
+  <tbody>
+      <tr ng-repeat="row in listaHab">
+          <td>{{row.tipo}}</td>
+          <td>{{row.clase}}</td>
+      </tr>
+  </tbody>
+</table>
+<div class="button"><a href="#/reserva" ng-click="filtrar(filtro)">Reservar</a></div>
+</div>

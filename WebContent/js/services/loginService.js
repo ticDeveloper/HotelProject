@@ -1,13 +1,9 @@
 'use strict'
-app.factory('loginService',function($http){
-  return{
-    login:function(user){
-      var $promise=$http.post('api/usuario',user);
-      $promise.then(function(msg){
-         var uid=msg.data;
-         if(uid=='success') console.log('success login');
-          else console.log('error login');
-         });
-    }
-  }
+app.factory('loginService',function($resource){
+  var factory={
+    login: $resource('api/usuario/:usuario/:clave',{},{
+        loginUser: {method:'GET',isArray:false}
+    })
+  };
+  return factory;
 });
