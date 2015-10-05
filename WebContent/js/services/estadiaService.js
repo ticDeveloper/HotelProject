@@ -8,7 +8,7 @@ app.factory('estadiaService',function($resource){
       checkOut: $resource('api/estadia/checkOut'),
       updateEstadia: $resource('api/estadia/update'),
       estadias: $resource('api/reservas/:criterio',{criterio:'@criterio'},{
-         query: { mthod:"GET",isArray:true}
+         query: { method:"GET",isArray:true}
       }),
       reservaItem: $resource('api/reservas/:reservaId'),
 

@@ -1,6 +1,6 @@
 'use strict'
 //controler de modulo de reservas
-app.controller('reservaControl',function($scope,reservaService,$routeParams,$filter,$window){
+app.controller('reservaControl',function($scope,reservaService,$routeParams,$filter,$window,$location){
   $scope.gridOptions = {
      enableRowSelection: true,
      rowHeight: 35,
@@ -36,11 +36,12 @@ app.controller('reservaControl',function($scope,reservaService,$routeParams,$fil
        $scope.customer.selectedHabs=selecteds;
 
        reservaService.reservas.save(customer).$promise.then(function(data){
-         $mesg="Reserva realizada exitosamente, en breve nos comunicaremos con usted para verificar la reserva."
-         $location.path( "/messages/".$mesg );
+         var mesg="Reserva realizada exitosamente, en breve nos comunicaremos con usted para confirmar la reserva."
+        $location.path('/messages/' + mesg);
+        //  $window.location.href = landingUrl;
       },function(error){
-           $mesg="La reserva no fue realizada, asegurese de llenar correctamente los campos."
-           $location.path( "/message/".$mesg );
+        var mesg="La reserva no fue realizada por favor verifique los campos."
+       $location.path('/messages/' + mesg);
       });
   };
   //function to filter data

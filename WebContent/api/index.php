@@ -330,13 +330,8 @@ function getReservas($criterio){
     $stmt->execute();
     $reservas = $stmt->fetchAll(PDO::FETCH_OBJ);
     foreach($reservas as $value){
-       if($value->pago_tarjeta==1) $value->pago_tarjeta='true';
-       else $value->pago_tarjeta='false';
-       if($value->servicio_recojo==1) $value->servicio_recojo='true';
-       else $value->servicio_recojo='false';
       $value->noches=dias_transcurridos($value->fecha_ingreso,$value->fecha_salida)-1;
     }
-
     $dbCon=null;
     echo json_encode($reservas);
   }
@@ -447,8 +442,7 @@ function calcularDiferenciasDiasyTotal($fechaIn,$fechaOut,$cId){
 function dias_transcurridos($fechaIn,$fechaOut)
 {
 	$dias	= (strtotime($fechaIn)-strtotime($fechaOut))/86400;
-	$dias 	= abs($dias); $dias = floor($dias);
-  echo $dias;
+	$dias 	= abs($dias); $dias = floor($dias);  
   return $dias;
 }
 
