@@ -12,7 +12,7 @@
          <fieldset>
            <div class="field">
        <label for="txtName" >Name : </label>
-        <input id="txtName"  type='text' placeholder="your full name" required ng-model="customer.name"  />
+        <input id="txtName" ng-pattern ="/^[a-zA-Z\s]*$/" type='text' placeholder="your full name" required ng-model="customer.name"  />
         </div>
         <div class="field">
         <label for="txtADate" >Date In : </label>
@@ -33,7 +33,7 @@
       </div>
       <div class="field">
         <label for="txtPhone" >Phone : </label>
-        <input id="txtPhone"  type='text' placeholder="your phone" ng-model="customer.phone"  />
+        <input id="txtPhone"  type='number' placeholder="your phone" ng-model="customer.phone"  />
       </div>
       </fieldset>
       </div>
@@ -61,7 +61,7 @@
      </div>
        <div class="field">
        <label for="txtFlight" >Flight : </label>
-       <input id="txtFlight"  type='text' placeholder="flight number" ng-model="customer.flight" ng-required="customer.pick" />
+       <input id="txtFlight"   type='text' placeholder="flight number" ng-model="customer.flight" ng-required="customer.pick" />
        </div>
        <div class="field">
        <label for="txtTime" >Time : </label>
@@ -92,7 +92,7 @@
      </div>
        <div class="field">
        <label for="txtCard" >Card Number : </label>
-       <input id="txtCard"  type='text' placeholder="your card number" ng-required="customer.cardPick" ng-model="customer.card"  />
+       <input id="txtCard"  type='number' placeholder="your card number" ng-required="customer.cardPick" ng-model="customer.card"  />
      </div>
        <div class="field">
        <label for="txtExpDate" >Exp. Date : </label>
@@ -100,15 +100,15 @@
      </div>
        <div class="field">
        <label for="txtCode" >Code : </label>
-       <input id="txtCode"  type='text' placeholder="your credit card code" required ng-model="customer.code"  ng-required="customer.cardPick"/>
+       <input id="txtCode"  type='number' placeholder="your credit card code" required ng-model="customer.code"  ng-required="customer.cardPick"/>
      </div>
        <div class="field">
        <label for="txtCardName" >First Name : </label>
-       <input id="txtCardName"  type='text' placeholder="your card name" required ng-model="customer.cardName"  ng-required="customer.cardPick"/>
+       <input id="txtCardName" ng-pattern ="/^[a-zA-Z\s]*$/"  type='text' placeholder="your card name" required ng-model="customer.cardName"  ng-required="customer.cardPick"/>
      </div>
        <div class="field">
        <label for="txtCardLastName" >Last Name : </label>
-       <input id="txtCardLastName"  type='text' placeholder="your card last name" required ng-model="customer.cardLastName" ng-required="customer.cardPick" />
+       <input id="txtCardLastName" ng-pattern ="/^[a-zA-Z\s]*$/"  type='text' placeholder="your card last name" required ng-model="customer.cardLastName" ng-required="customer.cardPick" />
      </div>
      </fieldset>
      </div>
@@ -150,7 +150,7 @@
                   <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateOut" >
                 </div>
                 <div class="field"> Persons :
-                  <input type="text" ng-model="filtro.number" value="1" required>
+                  <input type="number" ng-model="filtro.number" value="1" required>
                 </div>
                 <div class="button"><a href="" ng-click="filtrar(filtro)">Search</a></div>
               </fieldset>

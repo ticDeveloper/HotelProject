@@ -199,4 +199,11 @@ app.controller('gestionEstadiaControl',function($scope,estadiaService,$routePara
        $log.info('Modal dismissed at: ' + new Date());
      });
    };
+
+ $scope.refreshCodeSelected=function(){
+   $scope.gridApi2.selection.getSelectedRows();
+   var selecteds= $scope.gridApi2.selection.getSelectedRows();
+   //reservaService.addReserva.withjson({},selecteds);
+   $scope.selectedCuentaOcu=selecteds;
+ };
 });

@@ -1,5 +1,5 @@
 'use strict'
-var app= angular.module('hotelApp', ['ngRoute','ngResource','ui.grid','ui.grid.selection','ngAnimate', 'ui.bootstrap']);
+var app= angular.module('hotelApp', ['ngRoute','ngResource','ui.grid','ui.grid.selection','ngAnimate', 'ui.bootstrap','flow']);
 
 app.config(['$routeProvider',
 	function($routeProvider){
@@ -35,6 +35,10 @@ app.config(['$routeProvider',
 			when('/estadia/gestion',{
 				  templateUrl: 'partials/gestionEstadia.html',
 				  controller: 'gestionEstadiaControl'
+			}).
+			when('/estadia/gestionOcupante/:cuentaId',{
+					templateUrl: 'partials/gestionEstadiaOcupante.html',
+					controller: 'gestionEstadiaOcupanteControl'
 			}).
 			when('/messages/:msg',{
 					templateUrl: 'partials/message.html',

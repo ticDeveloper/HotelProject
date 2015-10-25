@@ -97,7 +97,7 @@ app.controller('ModalInstanceCtrlCheckOut', function ($scope, $modalInstance, it
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
-  
+
   $scope.evaluateNights=function(){
     var param2=$scope.cuenta.fecha_ingreso;
     param2=$filter('date')(param2, "yyyy-MM-dd",'+0400');
@@ -107,6 +107,46 @@ app.controller('ModalInstanceCtrlCheckOut', function ($scope, $modalInstance, it
       $scope.cuenta.noches=respon.dias;
       $scope.cuenta.costo_estadia=respon.costo;
     });
+  };
+
+});
+
+app.controller('ModalInstanceDetOcuCtrl', function ($scope, $modalInstance, item,estadiaOcupanteService) {
+
+  $scope.ocupante=item[0];
+  estadiaOcupanteService.ocupantes.show({estadia:$scope.ocupante.id},function(response){
+      $scope.habitacionesOcupantes=response;
+  });
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+});
+
+app.controller('ModalInstanceAddOcuCtrl', function ($scope, $modalInstance, item, estadiaOcupanteService,fileUpload) {
+  $scope.ocupante=item[0];
+  $scope.guardar = function () {
+    $scope.ocupantes.idEstadia=$scope.ocupante.id;
+    estadiaOcupanteService.ocupantesAdd.save($scope.ocupantes).$promise.then(function(data){
+/*
+      var file = $scope.myFile;
+      console.log('file is ' );
+      console.dir(file);
+      var uploadUrl = "/HotelProject/WebContent/api/filesUpload";
+      fileUpload.uploadFileToUrl(file, uploadUrl);
+*/
+      console.log("ocupantes bien");
+    },function(error){
+       console.log("ocupantes mal");
+    });
+    $modalInstance.close();
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
   };
 
 });

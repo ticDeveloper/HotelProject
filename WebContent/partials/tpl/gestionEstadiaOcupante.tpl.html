@@ -1,0 +1,81 @@
+<script type="text/ng-template" id="ModalInstanceAddOcu.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Registrar Ocupantes</h3>
+        </div>
+          <div class="modal-body">
+        <span style="display:none;">aa{{ocu.id}}</span>
+        <table>
+        <tr><td colspan="2">DATOS OCUPANTE 1</td></tr>
+        <tr>
+        <td><label>Nombre  : </label><input type="text"  ng-pattern ="/^[a-zA-Z\s]*$/" ng-model="ocupantes.ocupante1N" /><td>
+        <td><label>Apellido  : </label><input type="text"  ng-pattern ="/^[a-zA-Z\s]*$/" ng-model="ocupantes.ocupante1A" /></td>
+        <td><label>Doc Identidad  : </label><input type="text"  ng-model="ocupantes.ocupante1D" /></td>
+        </tr>
+        <tr><td colspan="3">DATOS OCUPANTE 2</td></tr>
+        <tr>
+        <td><label>Nombre  : </label><input type="text"  ng-pattern ="/^[a-zA-Z\s]*$/" ng-model="ocupantes.ocupante2N" /><br/><td>
+        <td><label>Apellido  : </label><input type="text"  ng-pattern ="/^[a-zA-Z\s]*$/" ng-model="ocupantes.ocupante2A" /><br/></td>
+        <td><label>Doc Identidad  : </label><input type="text"  ng-model="ocupantes.ocupante2D" /><br/></td>
+        </tr>
+        <tr><td colspan="3">DATOS OCUPANTE 3</td></tr>
+        <tr>
+        <td><label>Nombre  : </label><input type="text" ng-pattern ="/^[a-zA-Z\s]*$/"  ng-model="ocupantes.ocupante3N" /><br/><td>
+        <td><label>Apellido  : </label><input type="text"  ng-pattern ="/^[a-zA-Z\s]*$/" ng-model="ocupantes.ocupante3A" /><br/></td>
+        <td><label>Doc Identidad  : </label><input type="text"  ng-model="ocupantes.ocupante3D" /><br/></td>
+        </tr>
+        <tr><td colspan="3">DATOS OCUPANTE 4</td></tr>
+        <tr>
+        <td><label>Nombre  : </label><input type="text" ng-pattern ="/^[a-zA-Z\s]*$/"  ng-model="ocupantes.ocupante4N" /><br/><td>
+        <td><label>Apellido  : </label><input type="text" ng-pattern ="/^[a-zA-Z\s]*$/"  ng-model="ocupantes.ocupante4A" /><br/></td>
+        <td><label>Doc Identidad  : </label><input type="text"  ng-model="ocupantes.ocupante4D" /><br/></td>
+        </tr>
+        <tr><td colspan="3">DATOS OCUPANTE 5</td></tr>
+        <tr>
+        <td><label>Nombre  : </label><input type="text" ng-pattern ="/^[a-zA-Z\s]*$/" ng-model="ocupantes.ocupante5N" /><br/><td>
+        <td><label>Apellido  : </label><input type="text" ng-pattern ="/^[a-zA-Z\s]*$/" ng-model="ocupantes.ocupante5A" /><br/></td>
+        <td><label>Doc Identidad  : </label><input type="text"  ng-model="ocupantes.ocupante5D" /><br/></td>
+        </tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="guardar()">Registrar Ocupantes</button>
+            <button class="btn btn-primary" type="button" ng-click="cancel()">Cancelar</button>
+        </div>
+</script>
+
+<script type="text/ng-template" id="myModalDetOcupantes.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Detalles de Ocupantes</h3>
+        </div>
+        <div class="modal-body">
+        <label>OCUPANTES</label><br/>
+
+        <table class="table">
+          <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          </tr>
+          <tr ng-repeat=" row in habitacionesOcupantes">
+            <td>{{row.nombre}}</td>
+            <td>{{row.apellido}}</td>
+          </tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">Cerrar</button>
+        </div>
+</script>
+
+<input ng-show="false" id="txtName"  type='textarea' placeholder="your fullaaa name" ng-model="selectedCuenta" ng-init="selectedCuenta=0" />
+
+<div>
+<form name="form1" role="form">
+  <div class="text"><h2>Habitaciones</h2></div>
+  <div ui-grid="gridPendientes" ui-grid-selection class="myGrid"></div>
+  <div class="clear">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+  <div class="button" >
+      <a href="" ng-click="ver()" >Ver Ocupantes</a>
+      <a href="" ng-click="agregarOcupantes()" >Registrar Ocupantes</a>
+  </div>
+</form>
+</div>

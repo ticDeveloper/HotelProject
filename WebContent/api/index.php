@@ -29,9 +29,115 @@ $app->post('/reservas','addReservation'); // Using Post HTTP Method and process 
 $app->get('/reservas/:criterio','getReservas'); // Obtener todas las reservas para el metodo get
 $app->get('/reservas/:idR','getReservaItem');
 $app->put('/reservas','addReservaPut'); //guardar Reserva
+$app->get('/habitacionesOcupantes/:estadia','getOcupantes'); //guardar Reserva
+$app->post('/habitacionesOcupantes','addcupantes'); //guardar Reserva
+$app->post('/filesUpload','uploadFiles');
+
 
 $app->run();
 
+
+function uploadFiles(){
+
+  if (!isset($_FILES["files"]["name"])) {
+        echo "No files uploaded!!";
+        return;
+    }
+    else {
+      echo "file found!";
+    }
+    $imgs = array();
+    $files = $_POST['file'];
+    echo $files;
+
+
+}
+
+
+function getOcupantes($estadia){
+  $request=Slim::getInstance()->request();
+  $ocupante=json_decode($request->getBody());
+  $sql="SELECT  * FROM ocupantes where id_estadia=:id_estadia and estado =1 ";
+
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             $stmt->bindParam("id_estadia",$estadia);
+             $stmt->execute();
+             $ocupantes = $stmt->fetchAll(PDO::FETCH_OBJ);
+             $dbCon=null;
+             echo json_encode($ocupantes);
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
+
+function addcupantes(){
+  $request=Slim::getInstance()->request();
+  $ocupante=json_decode($request->getBody());
+  $fecha=date("Y/m/d");
+  $sql="INSERT INTO ocupantes(nombre,apellido,estado,fecha_registro,id_estadia,doc_identidad)
+       VALUES (:nombre,:apellido,'true',:fecha_registro,:id_estadia,:doc_identidad)";
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             if(isset($ocupante->ocupante1N) && ($ocupante->ocupante1N!=""))
+             {
+               $stmt->bindParam("nombre",$ocupante->ocupante1N);
+               $stmt->bindParam("apellido",$ocupante->ocupante1A);
+               $stmt->bindParam("fecha_registro",$fecha);
+               $stmt->bindParam("id_estadia",$ocupante->idEstadia);
+               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad1D);
+               $stmt->execute();
+               $lastId = $dbCon->lastInsertId();
+             }
+             if(isset($ocupante->ocupante2N) && ($ocupante->ocupante2N!=""))
+             {
+               $stmt->bindParam("nombre",$ocupante->ocupante2N);
+               $stmt->bindParam("apellido",$ocupante->ocupante2A);
+               $stmt->bindParam("fecha_registro",$fecha);
+               $stmt->bindParam("id_estadia",$ocupante->idEstadia);
+               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad2D);
+               $stmt->execute();
+               $lastId = $dbCon->lastInsertId();
+             }
+             if(isset($ocupante->ocupante3N) && ($ocupante->ocupante3N!=""))
+             {
+               $stmt->bindParam("nombre",$ocupante->ocupante3N);
+               $stmt->bindParam("apellido",$ocupante->ocupante3A);
+               $stmt->bindParam("fecha_registro",$fecha);
+               $stmt->bindParam("id_estadia",$ocupante->idEstadia);
+               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad3D);
+               $stmt->execute();
+               $lastId = $dbCon->lastInsertId();
+             }
+             if(isset($ocupante->ocupante4N) && ($ocupante->ocupante4N!=""))
+             {
+               $stmt->bindParam("nombre",$ocupante->ocupante4N);
+               $stmt->bindParam("apellido",$ocupante->ocupante4A);
+               $stmt->bindParam("fecha_registro",$fecha);
+               $stmt->bindParam("id_estadia",$ocupante->idEstadia);
+               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad4D);
+               $stmt->execute();
+               $lastId = $dbCon->lastInsertId();
+             }
+             if(isset($ocupante->ocupante5N) && ($ocupante->ocupante5N!=""))
+             {
+               $stmt->bindParam("nombre",$ocupante->ocupante5N);
+               $stmt->bindParam("apellido",$ocupante->ocupante5A);
+               $stmt->bindParam("fecha_registro",$fecha);
+               $stmt->bindParam("id_estadia",$ocupante->idEstadia);
+               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad5D);
+               $stmt->execute();
+               $lastId = $dbCon->lastInsertId();
+             }
+
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
 
 function addReservaPut(){
    $request = Slim::getInstance()->request();
@@ -442,7 +548,7 @@ function calcularDiferenciasDiasyTotal($fechaIn,$fechaOut,$cId){
 function dias_transcurridos($fechaIn,$fechaOut)
 {
 	$dias	= (strtotime($fechaIn)-strtotime($fechaOut))/86400;
-	$dias 	= abs($dias); $dias = floor($dias);  
+	$dias 	= abs($dias); $dias = floor($dias);
   return $dias;
 }
 
