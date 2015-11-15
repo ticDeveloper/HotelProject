@@ -43,21 +43,62 @@
         </div>
 </script>
 
+<script type="text/ng-template" id="ModalInstanceAddServices.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Registrar servicios</h3>
+        </div>
+        <div class="modal-body">
+
+        <label for="ddFrom" >Producto : </label>
+        <select name="mySelect" id="mySelect"
+       ng-options="option.descripcion for option in productos track by option.id"
+       ng-model="data.producto"></select>
+        <table>
+          <tr><td>Descripcion : </td><td>{{data.producto.descripcion}}</td></tr>
+          <tr><td>Precio : </td><td>{{data.producto.precio}}</td></tr>
+          <tr><td>Unidad de medida : </td><td>{{data.producto.unidad}}</td></tr>
+          <tr><td>Cantidad : </td><td><input type="text" ng-init="data.cantidad=0" ng-model="data.producto.cantidad" placeholder="Ingrese la cantidad"/></td></tr>
+          <tr><td>Sub Total</td><td><span>{{data.producto.cantidad * data.producto.precio}}</span></td></tr>
+        </table>
+          </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="guardar()">Guardar</button>
+            <button class="btn btn-primary" type="button" ng-click="cancel()">Cancelar</button>
+        </div>
+</script>
+
 <script type="text/ng-template" id="myModalDetOcupantes.html">
         <div class="modal-header">
             <h3 class="modal-title">Detalles de Ocupantes</h3>
         </div>
         <div class="modal-body">
         <label>OCUPANTES</label><br/>
-
         <table class="table">
           <tr>
           <th>Nombre</th>
           <th>Apellido</th>
+          <th>Doc.Identidad</th>
           </tr>
           <tr ng-repeat=" row in habitacionesOcupantes">
             <td>{{row.nombre}}</td>
             <td>{{row.apellido}}</td>
+            <td>{{row.doc_identidad}}</td>
+          </tr>
+        </table>
+        <br/>
+        <label>SERVICIOS</label><br/>
+        <table class="table">
+          <tr>
+          <th>Descripcion</th>
+          <th>Cantidad</th>
+          <th>Precio unitario</th>
+          <th>Total</th>
+          </tr>
+          <tr ng-repeat=" serv in habitacionesServicios">
+            <td>{{serv.descripcion}}</td>
+            <td>{{serv.cantidad}}</td>
+            <td>{{serv.precioU}}</td>
+            <td>{{serv.total}}</td>
           </tr>
         </table>
         </div>
@@ -70,12 +111,13 @@
 
 <div>
 <form name="form1" role="form">
-  <div class="text"><h2>Habitaciones</h2></div>
+  <div class="text"><h2>Habitaciones ocupadas</h2></div>
   <div ui-grid="gridPendientes" ui-grid-selection class="myGrid"></div>
   <div class="clear">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
   <div class="button" >
-      <a href="" ng-click="ver()" >Ver Ocupantes</a>
+      <a href="" ng-click="ver()" >Ver Detalles</a>
       <a href="" ng-click="agregarOcupantes()" >Registrar Ocupantes</a>
+      <a href="" ng-click="agregarServicios()" >Registrar Servicios</a>
   </div>
 </form>
 </div>

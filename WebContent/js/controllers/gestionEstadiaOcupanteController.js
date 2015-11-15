@@ -87,4 +87,31 @@ app.controller('gestionEstadiaOcupanteControl',function($scope,estadiaService,$r
 
    };
 
+
+   $scope.agregarServicios = function (size) {
+     $scope.gridApi.selection.getSelectedRows();
+     var selecteds= $scope.gridApi.selection.getSelectedRows();
+     //reservaService.addReserva.withjson({},selecteds);
+     $scope.selectedCuenta=selecteds;
+
+     var modalInstance = $modal.open({
+       animation: $scope.animationsEnabled,
+       templateUrl: 'ModalInstanceAddServices.html',
+       controller: 'ModalInstanceAddServicesCtrl',
+       size: size,
+       resolve: {
+         item: function () {
+           return $scope.selectedCuenta;
+         }
+       }
+     });
+
+     modalInstance.result.then(function (selectedItem) {
+       $scope.selected = "final poup";
+     }, function () {
+       $log.info('Modal dismissed at: ' + new Date());
+     });
+
+   };
+
 });

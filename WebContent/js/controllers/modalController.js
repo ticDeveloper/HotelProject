@@ -79,7 +79,7 @@ app.controller('ModalInstanceCtrlModif', function ($scope, $modalInstance, item,
   };
 });
 
-app.controller('ModalInstanceCtrlCheckOut', function ($scope, $modalInstance, item,estadiaService) {
+app.controller('ModalInstanceCtrlCheckOut', function ($scope, $modalInstance, item,estadiaService,$filter) {
   $scope.cuenta=item[0];
   $scope.cuenta.fecha_salida=new Date($scope.cuenta.fecha_salida);
   $scope.cuenta.exp_date=new Date($scope.cuenta.exp_date);
@@ -114,8 +114,11 @@ app.controller('ModalInstanceCtrlCheckOut', function ($scope, $modalInstance, it
 app.controller('ModalInstanceDetOcuCtrl', function ($scope, $modalInstance, item,estadiaOcupanteService) {
 
   $scope.ocupante=item[0];
-  estadiaOcupanteService.ocupantes.show({estadia:$scope.ocupante.id},function(response){
+  estadiaOcupanteService.ocupantes.show({estadia:$scope.ocupante.id_estadia},function(response){
       $scope.habitacionesOcupantes=response;
+  });
+  estadiaOcupanteService.pedidos.show({estadia:$scope.ocupante.id_estadia},function(response){
+      $scope.habitacionesServicios=response;
   });
 
   $scope.ok = function () {
@@ -130,7 +133,7 @@ app.controller('ModalInstanceDetOcuCtrl', function ($scope, $modalInstance, item
 app.controller('ModalInstanceAddOcuCtrl', function ($scope, $modalInstance, item, estadiaOcupanteService,fileUpload) {
   $scope.ocupante=item[0];
   $scope.guardar = function () {
-    $scope.ocupantes.idEstadia=$scope.ocupante.id;
+    $scope.ocupantes.idEstadia=$scope.ocupante.id_estadia;
     estadiaOcupanteService.ocupantesAdd.save($scope.ocupantes).$promise.then(function(data){
 /*
       var file = $scope.myFile;
@@ -142,6 +145,33 @@ app.controller('ModalInstanceAddOcuCtrl', function ($scope, $modalInstance, item
       console.log("ocupantes bien");
     },function(error){
        console.log("ocupantes mal");
+    });
+    $modalInstance.close();
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+});
+
+
+app.controller('ModalInstanceAddServicesCtrl', function ($scope, $modalInstance, item, estadiaOcupanteService,fileUpload) {
+  $scope.ocupante=item[0];
+  $scope.productos=estadiaOcupanteService.productos.query();
+  $scope.catProductos=estadiaOcupanteService.catProductos.query();
+  $scope.guardar = function () {
+    $scope.data.producto.idHabitacion=$scope.ocupante.id_estadia;
+    estadiaOcupanteService.pedidosAdd.save($scope.data.producto).$promise.then(function(data){
+/*
+      var file = $scope.myFile;
+      console.log('file is ' );
+      console.dir(file);
+      var uploadUrl = "/HotelProject/WebContent/api/filesUpload";
+      fileUpload.uploadFileToUrl(file, uploadUrl);
+*/
+      console.log("pedidos bien");
+    },function(error){
+       console.log("pedidos mal");
     });
     $modalInstance.close();
   };

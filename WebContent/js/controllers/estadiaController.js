@@ -8,6 +8,7 @@ app.controller('estadiaControl',function($scope,estadiaService,$routeParams,$fil
      showGridFooter:false,
      columnDefs: [
        { field: 'fecha_ingreso',  displayName: "Fecha Ingreso" },
+       { field: 'fecha_salida',  displayName: "Fecha Salida" },
        { field: 'noches', displayName: "Noches",enableSorting: false},
        { field: 'pago_tarjeta', displayName: "Pago con tarjeta",cellFilter:'filterBoolean'},
        { field: 'servicio_recojo',displayName: "Servcio Aeropuerto", cellFilter:'filterBoolean' },

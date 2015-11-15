@@ -32,6 +32,10 @@ app.config(['$routeProvider',
 				  templateUrl: 'partials/estadia.html',
 				  controller: 'estadiaControl'
 			}).
+			when('/pedidos',{
+				  templateUrl: 'partials/pedidos.html',
+				  controller: 'pedidoControl'
+			}).
 			when('/estadia/gestion',{
 				  templateUrl: 'partials/gestionEstadia.html',
 				  controller: 'gestionEstadiaControl'

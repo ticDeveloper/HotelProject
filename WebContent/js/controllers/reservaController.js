@@ -66,7 +66,7 @@ app.controller('reservaControl',function($scope,reservaService,$routeParams,$fil
                     return;
                 }
                 $window.alert("Hello " + $scope.Name);
-            }
+            };
 
 
             $scope.evaluateNights=function(){
@@ -78,7 +78,7 @@ app.controller('reservaControl',function($scope,reservaService,$routeParams,$fil
               var selecteds= $scope.gridApi.selection.getSelectedRows();
               var totalN=0;
               reservaService.calculo.get({fechaIn:param2,fechaOut:param3},function(respon){
-                totalN=respon;
+                 totalN=respon;
               });
               $scope.customer.nights=totalN;
             };

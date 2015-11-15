@@ -33,12 +33,16 @@ $app->get('/habitacionesOcupantes/:estadia','getOcupantes'); //guardar Reserva
 $app->post('/habitacionesOcupantes','addcupantes'); //guardar Reserva
 $app->post('/filesUpload','uploadFiles');
 
+$app->get('/productos','getProductos');
+$app->get('/catProductos','getCatProductos');
+$app->post('/pedidos','addPedido');
+$app->get('/pedidos/:estadia','getPedidos');
 
 $app->run();
 
 
 function uploadFiles(){
-
+var_dump($request->getParsedBody());
   if (!isset($_FILES["files"]["name"])) {
         echo "No files uploaded!!";
         return;
@@ -53,6 +57,108 @@ function uploadFiles(){
 
 }
 
+function addPedido(){
+  $request=Slim::getInstance()->request();
+  $pedido=json_decode($request->getBody());
+  $fecha=date("Y/m/d");
+  $sql_query="INSERT INTO PEDIDO(idReserva,idProducto,cantidad,fecha,precioU,total) VALUES(:idReserva,:idProducto,:cantidad,:fecha,:precioU,:total)";
+  try{
+    $suma=0;
+    $dbCon = getDB();
+    $stmt = $dbCon->prepare($sql_query);
+      $stmt->bindParam("idReserva",$pedido->idHabitacion);
+      $stmt->bindParam("idProducto",$pedido->id);
+      $stmt->bindParam("cantidad",$pedido->cantidad);
+      $stmt->bindParam("fecha",$fecha);
+      $stmt->bindParam("precioU",$pedido->precio);
+      $total=($pedido->cantidad * $pedido->precio);
+      $stmt->bindParam("total",$total);
+      $stmt->execute();
+      $lastId = $dbCon->lastInsertId();
+
+         $sql_query1="select * from estadia where id_estadia=:id_estadia";
+         $stmt = $dbCon->prepare($sql_query1);
+         $stmt->bindParam("id_estadia",$pedido->idHabitacion);
+         $stmt->execute();
+         $estadia = $stmt->fetch(PDO::FETCH_OBJ);
+         $sql_query2 = "select * from estadia where idReserva=:cuentaId";
+         $stmt = $dbCon->prepare($sql_query2);
+         $stmt->bindParam("cuentaId",$estadia->idReserva);
+         $stmt->execute();
+         $habitaciones = $stmt->fetchAll(PDO::FETCH_OBJ);
+         foreach($habitaciones as $item){
+           $sql_qu="select sum(total) as total from pedido where idReserva=:habitacion group by idReserva";
+           $stmt = $dbCon->prepare($sql_qu);
+           $stmt->bindParam("habitacion",$item->id_estadia);
+           $stmt->execute();
+           $total = $stmt->fetch(PDO::FETCH_NUM);
+           $summ = $total[0];
+           $suma = $suma + $summ;
+         }
+
+         $sql_queryU= "UPDATE cuenta set costo_serviciosExtra=:serviciosTotal where id=:cuentaId";
+         $stmt = $dbCon->prepare($sql_queryU);
+         $stmt->bindParam("serviciosTotal",$suma);
+         $stmt->bindParam("cuentaId",$estadia->idReserva);
+         $stmt->execute();
+         $dbCon=null;
+   }
+  catch(PDOException $e){
+     echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+  }
+}
+
+function getPedidos($estadia){
+  $request=Slim::getInstance()->request();
+  $ocupante=json_decode($request->getBody());
+  $sql="SELECT  p.descripcion,pe.cantidad,pe.fecha,pe.precioU,pe.total FROM pedido pe left join producto p on (pe.idProducto=p.id) where idReserva=:idEstadia ";
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             $stmt->bindParam("idEstadia",$estadia);
+             $stmt->execute();
+             $productos = $stmt->fetchAll(PDO::FETCH_OBJ);
+             $dbCon=null;
+             echo json_encode($productos);
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
+
+function getProductos(){
+  $request=Slim::getInstance()->request();
+  $ocupante=json_decode($request->getBody());
+  $sql="SELECT  * FROM producto ";
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             $stmt->execute();
+             $productos = $stmt->fetchAll(PDO::FETCH_OBJ);
+             $dbCon=null;
+             echo json_encode($productos);
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
+
+function getCatProductos(){
+  $request=Slim::getInstance()->request();
+  $ocupante=json_decode($request->getBody());
+  $sql="SELECT  distinct(tipo) from producto ";
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             $stmt->execute();
+             $productos = $stmt->fetchAll(PDO::FETCH_OBJ);
+             $dbCon=null;
+             echo json_encode($productos);
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
 
 function getOcupantes($estadia){
   $request=Slim::getInstance()->request();
@@ -80,6 +186,7 @@ function addcupantes(){
   $sql="INSERT INTO ocupantes(nombre,apellido,estado,fecha_registro,id_estadia,doc_identidad)
        VALUES (:nombre,:apellido,'true',:fecha_registro,:id_estadia,:doc_identidad)";
    try{
+
              $dbCon = getDB();
              $stmt = $dbCon->prepare($sql);
              if(isset($ocupante->ocupante1N) && ($ocupante->ocupante1N!=""))
@@ -88,7 +195,7 @@ function addcupantes(){
                $stmt->bindParam("apellido",$ocupante->ocupante1A);
                $stmt->bindParam("fecha_registro",$fecha);
                $stmt->bindParam("id_estadia",$ocupante->idEstadia);
-               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad1D);
+               $stmt->bindParam("doc_identidad",$ocupante->ocupante1D);
                $stmt->execute();
                $lastId = $dbCon->lastInsertId();
              }
@@ -98,7 +205,7 @@ function addcupantes(){
                $stmt->bindParam("apellido",$ocupante->ocupante2A);
                $stmt->bindParam("fecha_registro",$fecha);
                $stmt->bindParam("id_estadia",$ocupante->idEstadia);
-               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad2D);
+               $stmt->bindParam("doc_identidad",$ocupante->ocupante2D);
                $stmt->execute();
                $lastId = $dbCon->lastInsertId();
              }
@@ -108,7 +215,7 @@ function addcupantes(){
                $stmt->bindParam("apellido",$ocupante->ocupante3A);
                $stmt->bindParam("fecha_registro",$fecha);
                $stmt->bindParam("id_estadia",$ocupante->idEstadia);
-               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad3D);
+               $stmt->bindParam("doc_identidad",$ocupante->ocupante3D);
                $stmt->execute();
                $lastId = $dbCon->lastInsertId();
              }
@@ -118,7 +225,7 @@ function addcupantes(){
                $stmt->bindParam("apellido",$ocupante->ocupante4A);
                $stmt->bindParam("fecha_registro",$fecha);
                $stmt->bindParam("id_estadia",$ocupante->idEstadia);
-               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad4D);
+               $stmt->bindParam("doc_identidad",$ocupante->ocupante4D);
                $stmt->execute();
                $lastId = $dbCon->lastInsertId();
              }
@@ -128,7 +235,7 @@ function addcupantes(){
                $stmt->bindParam("apellido",$ocupante->ocupante5A);
                $stmt->bindParam("fecha_registro",$fecha);
                $stmt->bindParam("id_estadia",$ocupante->idEstadia);
-               $stmt->bindParam("doc_identidad",$ocupante->doc_identidad5D);
+               $stmt->bindParam("doc_identidad",$ocupante->ocupante5D);
                $stmt->execute();
                $lastId = $dbCon->lastInsertId();
              }
@@ -436,7 +543,7 @@ function getReservas($criterio){
     $stmt->execute();
     $reservas = $stmt->fetchAll(PDO::FETCH_OBJ);
     foreach($reservas as $value){
-      $value->noches=dias_transcurridos($value->fecha_ingreso,$value->fecha_salida)-1;
+      $value->noches=dias_transcurridos($value->fecha_ingreso,$value->fecha_salida);
     }
     $dbCon=null;
     echo json_encode($reservas);

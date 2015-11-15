@@ -16,12 +16,13 @@
         </div>
         <div class="field">
         <label for="txtADate" >Date In : </label>
-        <input id="txtADate" type="date" min="2013-10-01" max="2018-10-20" required ng-model="customer.datea">
+        <input id="txtADate" type="date" ng-disabled="true" min="2013-10-01" max="2018-10-20" required ng-model="customer.datea"  >
       </div>
 
       <div class="field">
-        <label for="txtADate" >Date Out : </label>
-        <input id="txtADate" type="date" min="2013-10-01" max="2018-10-20" ng-change="evaluateNights()"  required ng-model="customer.dateOut">
+        <label for="txtODate" >Date Out : </label>
+        <input id="txtODate" type="date" ng-disabled="true" min="2013-10-01" max="2018-10-20"  required ng-model="customer.dateOut">
+        <input id="txtnumero"  type='number' ng-show="false" ng-model="customer.numero"  />
       </div>
       <div class="field">
         <label for="txtNights" >Nights : </label>
@@ -143,14 +144,14 @@
                 <div class="field">
                   <h5>Reservation Information:</h5>
                   <label>Check In</label>
-                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateIn" >
+                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateIn" ng-change="customer.datea=filtro.dateIn">
                 </div>
                 <div class="field">
                   <label>Check Out</label>
-                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateOut" >
+                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateOut" ng-change="customer.dateOut=filtro.dateOut;evaluateNights()">
                 </div>
                 <div class="field"> Persons :
-                  <input type="number" ng-model="filtro.number" value="1" required>
+                  <input type="number" ng-model="filtro.number" value="1" required ng-change="customer.numero=filtro.number">
                 </div>
                 <div class="button"><a href="" ng-click="filtrar(filtro)">Search</a></div>
               </fieldset>
