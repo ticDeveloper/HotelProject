@@ -466,8 +466,8 @@ function addReservation(){
             $dbCon = getDB();
             $stmt = $dbCon->prepare($sql);
             $stmt->bindParam("tpo_contacto",$reserva->tipoContacto);
-            $stmt->bindParam("fecha_llegada",$reserva->datea);
-            $stmt->bindParam("fecha_ingreso",$reserva->dateIn);
+            $stmt->bindParam("fecha_llegada",$reserva->dateIn);
+            $stmt->bindParam("fecha_ingreso",$reserva->datea);
             $stmt->bindParam("fecha_salida",$reserva->dateOut);
             $stmt->bindParam("noches",$reserva->nights);
             $stmt->bindParam("numero_tarjeta",$reserva->card);
