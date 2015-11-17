@@ -36,6 +36,10 @@ app.config(['$routeProvider',
 				  templateUrl: 'partials/pedidos.html',
 				  controller: 'pedidoControl'
 			}).
+			when('/reservaCliente',{
+				  templateUrl: 'partials/reservaCliente.html',
+				  controller: 'reservacliControl'
+			}).
 			when('/estadia/gestion',{
 				  templateUrl: 'partials/gestionEstadia.html',
 				  controller: 'gestionEstadiaControl'
@@ -46,6 +50,10 @@ app.config(['$routeProvider',
 			}).
 			when('/messages/:msg',{
 					templateUrl: 'partials/message.html',
+					controller: 'messageControl'
+			}).
+			when('/messagesCli/:msg',{
+					templateUrl: 'partials/messageCli.html',
 					controller: 'messageControl'
 			}).
 			otherwise({

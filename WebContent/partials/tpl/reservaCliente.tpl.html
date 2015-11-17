@@ -1,0 +1,155 @@
+<form>
+  <input ng-show="false" type="text" ng-model="customer.numero" ng-init="0" />
+  <input ng-show="false" id="txtName"  type='textarea' placeholder="your full name" ng-model="customer.selectedHabs" ng-init="customer.selectedHabs=0" />
+<div class="content-top">
+  <div class="clear"></div>
+    <div class="grid" ng-show="!checkedSearch">
+        <div class="text">
+      <h2>Client </h2>
+    </div>
+      <div class="booking">
+       <div class="reservation-form">
+         <fieldset>
+           <div class="field">
+       <label for="txtName" >Name : </label>
+        <input id="txtName" ng-pattern ="/^[a-zA-Z\s]*$/" type='text' placeholder="your full name" required ng-model="customer.name"  />
+        </div>
+        <div class="field">
+        <label for="txtADate" >Date In : </label>
+        <input id="txtADate" type="date" ng-disabled="true" min="2013-10-01" max="2018-10-20" required ng-model="customer.datea"  >
+      </div>
+
+      <div class="field">
+        <label for="txtODate" >Date Out : </label>
+        <input id="txtODate" type="date" ng-disabled="true" min="2013-10-01" max="2018-10-20"  required ng-model="customer.dateOut">
+        <input id="txtnumero"  type='text' ng-show="false" ng-model="customer.numero"  />
+      </div>
+      <div class="field">
+        <label for="txtNights" >Nights : </label>
+        <span>{{customer.nights}}</span>
+      </div>
+      <div class="field">
+        <label for="txtEmail" >Email : </label>
+        <input id="txtEmail"  type='email' placeholder="your email" required ng-model="customer.email"  />
+      </div>
+      <div class="field">
+        <label for="txtPhone" >Phone : </label>
+        <input id="txtPhone"  type='number' placeholder="your phone" ng-model="customer.phone"  />
+      </div>
+      </fieldset>
+      </div>
+    </div>
+
+    </div>
+    <div class="grid1" ng-show="!checkedSearch">
+      <div class="text">
+       <h2>Pickup Service </h2>
+     </div>
+       <div class="booking">
+        <div class="reservation-form">
+          <fieldset>
+            <div class="field">
+       <label for="chkPick" >Airport PickUp Service : </label>
+       <input type="checkbox" name="chkPick" value="pick" ng-model="customer.pick" checked>
+          </div>
+          <div class="field">
+            <label for="txtADate" >Arrival Date : </label>
+            <input id="txtADate" type="date" min="2014-10-01" max="2020-10-20" required ng-model="customer.dateIn">
+          </div>
+          <div class="field">
+       <label for="txtAirline" >Airline : </label>
+       <input id="txtAirline"  type='text' placeholder="airline name" ng-model="customer.airline" ng-required="customer.pick"  />
+     </div>
+       <div class="field">
+       <label for="txtFlight" >Flight : </label>
+       <input id="txtFlight"   type='text' placeholder="flight number" ng-model="customer.flight" ng-required="customer.pick" />
+       </div>
+       <div class="field">
+       <label for="txtTime" >Time : </label>
+       <input id="txtTime"  type='time' placeholder="Time arrival" ng-model="customer.time"
+             placeholder="HH:mm:ss" min="00:00:00" max="23:59:59"  ng-required="customer.pick" />
+       </div>
+         <div class="field">
+       <label for="ddFrom" >From : </label>
+       <select id="ddFrom" ng-model="customer.from" ng-required="customer.pick" >
+         <option value="EEUU">EE. UU.</option>
+         <option value="Germany">Germany</option>
+         <option value="France">France</option>
+         <option value="Sudan">Sudan</option>
+       </select>
+     </div>
+     </fieldset>
+     </div>
+       </div>
+    </div>
+    <div class="grid2" ng-show="!checkedSearch">
+       <h4>Card </h4>
+       <div class="booking">
+        <div class="reservation-form">
+          <fieldset>
+            <div class="field">
+       <label for="chkCard" >Pay with card : </label>
+       <input type="checkbox" name="chkCard" value="pickValue" ng-model="customer.cardPick" checked>
+     </div>
+       <div class="field">
+       <label for="txtCard" >Card Number : </label>
+       <input id="txtCard"  type='number' placeholder="your card number" ng-required="customer.cardPick" ng-model="customer.card"  />
+     </div>
+       <div class="field">
+       <label for="txtExpDate" >Exp. Date : </label>
+       <input id="txtExpDate"  type='date' required ng-model="customer.expDate" ng-required="customer.cardPick" />
+     </div>
+       <div class="field">
+       <label for="txtCode" >Code : </label>
+       <input id="txtCode"  type='number' placeholder="your credit card code" required ng-model="customer.code"  ng-required="customer.cardPick"/>
+     </div>
+       <div class="field">
+       <label for="txtCardName" >First Name : </label>
+       <input id="txtCardName" ng-pattern ="/^[a-zA-Z\s]*$/"  type='text' placeholder="your card name" required ng-model="customer.cardName"  ng-required="customer.cardPick"/>
+     </div>
+       <div class="field">
+       <label for="txtCardLastName" >Last Name : </label>
+       <input id="txtCardLastName" ng-pattern ="/^[a-zA-Z\s]*$/"  type='text' placeholder="your card last name" required ng-model="customer.cardLastName" ng-required="customer.cardPick" />
+     </div>
+     </fieldset>
+     </div>
+    </div>
+  </div>
+  <div class="grid2" ng-show="checkedSearch">
+     <h4>Nueva Reserva</h4>
+        <div class="booking">
+              <div class="reservation-form" >
+              <fieldset>
+                <div class="field">
+                  <h5>Informacion de reserva:</h5>
+                  <label>Check In</label>
+                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateIn" ng-change="customer.datea=filtro.dateIn">
+                </div>
+                <div class="field">
+                  <label>Check Out</label>
+                  <input id="txtADate" type="date" min="2015-09-01" max="2030-10-20" required ng-model="filtro.dateOut" ng-change="customer.dateOut=filtro.dateOut;evaluateNights()">
+                </div>
+                <div class="field"> Persons :
+                  <select id="ddNumberP" ng-model="filtro.number" required ng-change="customer.numero=filtro.number"  >
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                  </select>
+                </div>
+                <div class="button"><a href="" ng-click="filtrar(filtro)">Search</a></div>
+              </fieldset>
+          </div>
+          <div class="clear"></div>
+       </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="button" ng-show="!checkedSearch"><a href="" ng-click="reservar(customer)"> CONFIRM RESERVATION</a><a href="" ng-click="checkedSearch=true"> CANCEL</a></div>
+<span ng-show="true">&nbsp;</span>
+<div ui-grid="gridOptions"ng-show="checkedSearch" ui-grid-selection class="myGrid"></div>
+<div class="button" ><a href="" ng-click="checkedSearch=false;next()" ng-show="checkedSearch">REGISTER RESERVATION</a></div>
+<input type="checkbox" ng-show="false" ng-init="checkedSearch=true" ng-model="checkedSearch" aria-label="Toggle ngShow">
+<input type="checkbox" ng-show="false"  ng-init="disableButton=false" ng-model="disableButton" aria-label="Toggle ngShow">
+</form>

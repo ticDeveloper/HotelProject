@@ -87,11 +87,12 @@ app.controller('ModalInstanceCtrlCheckOut', function ($scope, $modalInstance, it
 
   $scope.checkOut = function () {
     estadiaService.checkOut.save($scope.cuenta).$promise.then(function(data){
+        
       console.log("checkOut bien");
     },function(error){
+      $modalInstance.close();
        console.log("checkOut mal");
     });
-    $modalInstance.close();
   };
 
   $scope.cancel = function () {

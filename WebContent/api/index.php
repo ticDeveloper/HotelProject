@@ -2,6 +2,7 @@
 
 require 'db.php';
 require 'Slim/Slim.php';
+require '../lib/fpdf/fpdf.php';
 
 \Slim\Slim::registerAutoloader();
 use Slim\Slim;
@@ -38,8 +39,51 @@ $app->get('/catProductos','getCatProductos');
 $app->post('/pedidos','addPedido');
 $app->get('/pedidos/:estadia','getPedidos');
 
+$app->get('/factura/:cuenta','getFactura');
+
 $app->run();
 
+
+function getFactura($cuenta){
+
+  $request = Slim::getInstance()->request();
+  $form = json_decode($request->getBody()); // decodificamos los parametros del request
+  $sql_query = "SELECT * FROM cuenta where id=:cuentaid";
+   try {
+     $dbCon = getDB();
+     $stmt = $dbCon->prepare($sql_query);
+     $stmt->bindParam("cuentaid",$cuenta);
+     $stmt->execute();
+     $tiposHab = $stmt->fetch(PDO::FETCH_OBJ);
+     $dbCon=null;
+     $pdf = new FPDF();
+     $pdf->AddPage();
+     $pdf->SetFont('Arial','B',15);
+     $pdf->Cell(0,10,'FACTURA HOSTAL ',1,1);
+     $pdf->SetFont('Times','B',12);
+     $pdf->Cell(0,10,'NIT : 2198018122' ,0,1);
+     $pdf->Cell(0,10,"NOMBRE : ".$tiposHab->nombre ,0,1);
+     $pdf->Cell(0,10,"FECHA INGRESO : ".$tiposHab->fecha_ingreso,0,1);
+     $pdf->Cell(0,10,"FECHA SALIDA : ".$tiposHab->fecha_salida,0,1);
+     $pdf->Cell(0,10,"NOCHES : ".$tiposHab->noches,0,1);
+     $pdf->Cell(0,10,"COSTO ESTADIA : ".$tiposHab->costo_estadia,0,1);
+     $pdf->Cell(0,10,"COSTO SERVICIOS :".$tiposHab->costo_serviciosExtra,0,1);
+     $pdf->Cell(0,10,"TOTAL CANCELADO: ".$tiposHab->total_pagado,0,1);
+     $pdf->Output();
+ob_end_flush();
+     $file = $pdf->Output();
+     $filename = 'filename.pdf';
+     header('Content-type: application/pdf');
+     header('Content-Disposition: inline; filename="' . $filename . '"');
+     header('Content-Transfer-Encoding: binary');
+     header('Accept-Ranges: bytes');
+     @readfile($file);
+   }
+   catch(PDOException $e) {
+       echo '{"error inesperado":{"text":'. $e->getMessage() .'}}';
+   }
+
+}
 
 function uploadFiles(){
 var_dump($request->getParsedBody());
