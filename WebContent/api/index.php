@@ -19,6 +19,11 @@ $app->get('/habitacionesMacro/:nro/:fecha_ingreso/:fecha_egreso','getHabitacione
 $app->get('/habitaciones/:nro/:fecha_ingreso/:fecha_egreso','getHabitacionesDisp'); // Using Post HTTP Method and process getUser function
 $app->get('/habitacionesCuenta/:cuenta','getHabitacionesCuenta'); // Using Post HTTP Method and process getUser function
 
+$app->get('/habitacionesDisp','getHabDisp'); // Using Post HTTP Method and process getUser function
+$app->get('/habitacionesOcu','getHabitacionesOcu'); // Using Post HTTP Method and process getUser function
+$app->get('/serviciosCli/:nombre','getServiciosCliente'); // Using Post HTTP Method and process getUser function
+
+
 $app->get('/estadia','getEstadias');
 $app->post('/estadia','confirmarReserva'); //guardar Reserva
 $app->post('/estadia/update','updateEstadia'); //guardar Reserva
@@ -43,6 +48,62 @@ $app->get('/factura/:cuenta','getFactura');
 
 $app->run();
 
+function getServiciosCliente($nombre){
+  $request=Slim::getInstance()->request();
+  $cliente=json_decode($request->getBody());
+  $sql="select c.nombre,pr.descripcion,p.cantidad,p.precioU,p.total,p.fecha,h.codigo from cuenta c
+left join estadia e on (c.id=e.idReserva)
+left join pedido p on (p.idReserva = e.id_estadia)
+left join habitacion h on (e.habitacion=h.id)
+left join producto pr on (pr.id=p.idProducto)
+where c.nombre = :cliente ";
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             $stmt->bindParam("cliente",$nombre);
+             $stmt->execute();
+             $libres = $stmt->fetchAll(PDO::FETCH_OBJ);
+             $dbCon=null;
+             echo json_encode($libres);
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
+
+function getHabDisp(){
+  $request=Slim::getInstance()->request();
+  $ocupante=json_decode($request->getBody());
+  $sql="select * from habitacion where id not in (select habitacion from estadia where (estado = 'RESERVA' or ESTADO='CONFIRMADO' or ESTADO='OCUPADO') ) ";
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             $stmt->execute();
+             $libres = $stmt->fetchAll(PDO::FETCH_OBJ);
+             $dbCon=null;
+             echo json_encode($libres);
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
+
+function getHabitacionesOcu(){
+  $request=Slim::getInstance()->request();
+  $ocupante=json_decode($request->getBody());
+  $sql="SELECT distinct (h.id),h.* from habitacion h left join estadia e on (e.habitacion=h.id) where e.estado<>'DISPONIBLE'";
+   try{
+             $dbCon = getDB();
+             $stmt = $dbCon->prepare($sql);
+             $stmt->execute();
+             $ocupados = $stmt->fetchAll(PDO::FETCH_OBJ);
+             $dbCon=null;
+             echo json_encode($ocupados);
+   }
+   catch(PDOException $e){
+              echo '{"error inesperado" : {"text":'. $e->getMessage().'}}';
+   }
+}
 
 function getFactura($cuenta){
 
@@ -331,7 +392,7 @@ function getHabitacionesDispMacro($nro,$fecha_ingreso,$fecha_egreso){
                 from
                 (SELECT h.*,nr_simples + nro_matrimniales as camas,t.descripcion as Clase
                  FROM habitacion h left join clase_habitacion t on (h.tipo_habitacion=t.id)
-                 where h.id not in (select habitacion from estadia where fecha_egreso < :fecha_ingresoP and fecha_ingreso>:fecha_egresoP)
+                 where h.id not in (select habitacion from estadia where fecha_ingreso BETWEEN CAST(:fecha_ingresoP AS DATE) AND CAST(:fecha_egresoP AS DATE) and fecha_egreso BETWEEN CAST(:fecha_ingresoP AS DATE) AND CAST(:fecha_egresoP AS DATE) )
                  group by id having camas >=:numero_camas) a
                   group by a.tipo,a.clase";
     try {
@@ -355,7 +416,7 @@ function getHabitacionesDisp($nro,$fecha_ingreso,$fecha_egreso){
    if($nro<=0) $nro=1000;
    $sql_query = "SELECT h.*,nr_simples + nro_matrimniales as camas,t.descripcion as Clase
                  FROM habitacion h left join clase_habitacion t on (h.tipo_habitacion=t.id)
-                 where h.id not in (select habitacion from estadia where fecha_egreso < :fecha_ingresoP and fecha_ingreso>:fecha_egresoP and (estado = 'RESERVA' or ESTADO='CONFIRMADO' or ESTADO='OCUPADO'))
+                 where h.id not in (select habitacion from estadia where fecha_ingreso BETWEEN CAST(:fecha_ingresoP AS DATE) AND CAST(:fecha_egresoP AS DATE) and fecha_egreso BETWEEN CAST(:fecha_ingresoP AS DATE) AND CAST(:fecha_egresoP AS DATE) and (estado = 'RESERVA' or ESTADO='CONFIRMADO' or ESTADO='OCUPADO'))
                  group by id having camas >=:numero_camas order by camas asc ";
     try {
       $dbCon = getDB();

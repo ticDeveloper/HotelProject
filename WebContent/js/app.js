@@ -36,6 +36,17 @@ app.config(['$routeProvider',
 				  templateUrl: 'partials/pedidos.html',
 				  controller: 'pedidoControl'
 			}).
+			when('/habitacionesLista',{
+				  templateUrl: 'partials/listaHabitaciones.html',
+				  controller: 'listaHabitacionesControl'
+			}).
+			when('/serviciosCliente',{
+					templateUrl: 'partials/filtroReporteServicios.html'
+			}).
+			when('/serviciosCliente/:nombre',{
+					templateUrl: 'partials/reporteServicios.html',
+					controller : 'serviciosClienteControl'
+			}).
 			when('/reservaCliente',{
 				  templateUrl: 'partials/reservaCliente.html',
 				  controller: 'reservacliControl'

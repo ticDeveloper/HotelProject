@@ -1,0 +1,32 @@
+<a href="#/login" style="display:block; margin-bottom:10px;color:white"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LogOut</a>
+<div class="menu">
+    <ul>
+      <li ><a href="#/reservaCliente">Nueva Reserva</a></li>
+      <li ><a href="#/estadia">Reservas</a></li>
+      <li ><a href="#/estadia/gestion">Estadias</a></li>
+      <li><a href="#/habitacionesLista">Habitaciones</a></li>
+      <li class="active"><a href="#/serviciosCliente">Servicios Cliente</a></li>
+
+    </ul>
+     <div class="clear"></div>
+</div>
+<div class="container">
+<form name="form1" role="form" >
+  <fieldset class="booking">
+    <div class="reservation-form">
+  <div class="field">
+    <h5>Buscar servicios:</h5>
+  <label for="txtUsuario" >Nombre : </label>
+  <input id="txtUsuario"  type='text' placeholder="ingrese usuario" required ng-model="filtro.nombre" />
+  <div class="clear"></div>
+  </div>
+  <div class="button" ><a href="#/serviciosCliente/{{filtro.nombre}}">BUSCAR</a></div>
+</div>
+</fieldset>
+</form>
+</div>
+   <div class="content">
+</div>
+</div>
+<div class="clear">&nbsp;</div>
+<div class="clear">&nbsp;</div><div class="clear">&nbsp;</div><div class="clear">&nbsp;</div><div class="clear">&nbsp;</div><div class="clear">&nbsp;</div><div class="clear">&nbsp;</div>
