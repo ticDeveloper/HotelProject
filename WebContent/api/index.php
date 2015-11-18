@@ -738,7 +738,7 @@ function registrarCheckOut(){
       $stmt->bindParam("pagado",$reserva->pagado);
       $stmt->bindParam("cuentaId",$reserva->id);
       $stmt->execute();
-      $sql_update="UPDATE estadia SET estado='DISPONIBLE' where id=:cuentaId";
+      $sql_update="UPDATE estadia SET estado='DISPONIBLE' where idReserva=:cuentaId";
       $stmt = $dbCon->prepare($sql_update);
       $stmt->bindParam("cuentaId",$reserva->id);
       $stmt->execute();
